@@ -964,7 +964,7 @@ class RTCUtils extends Listenable {
         const constraints = getConstraints(um, options);
 
         logger.info('Get media constraints', constraints);
-
+        logger.info('nineleaps: getUserMediaWithConstraints::', constraints);
         return new Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints)
             .then(stream => {
@@ -995,7 +995,7 @@ class RTCUtils extends Listenable {
         return new Promise((resolve, reject) => {
             //{audio:true}
             //{video:{exact:{deviceid:""}}}
-            logger.info(`nineleaps: new constraints ${constraints}`)
+            logger.info('nineleaps: _newGetUserMediaWithConstraints', constraints);
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
                     logger.log('onUserMediaSuccess');

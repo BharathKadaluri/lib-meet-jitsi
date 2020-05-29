@@ -1009,7 +1009,7 @@ class RTCUtils extends Listenable {
 
                 constraints['video'] = nlVideo;
             }
-            logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, newVideo);
+            logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, nlVideo);
 
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {

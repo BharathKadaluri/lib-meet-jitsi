@@ -982,7 +982,9 @@ class RTCUtils extends Listenable {
     }
 
     /**
-     * Acquires a media stream via getUserMedia that
+    _newGetUserMediaWithConstraints(umDevices, constraints = {}) {
+
+        * Acquires a media stream via getUserMedia that
      * matches the given constraints
      *
      * @param {array} umDevices which devices to acquire (e.g. audio, video)
@@ -991,6 +993,9 @@ class RTCUtils extends Listenable {
      */
     _newGetUserMediaWithConstraints(umDevices, constraints = {}) {
         return new Promise((resolve, reject) => {
+            //{audio:true}
+            //{video:{exact:{deviceid:""}}}
+            logger.info(`nineleaps: new constraints ${constraints}`)
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
                     logger.log('onUserMediaSuccess');

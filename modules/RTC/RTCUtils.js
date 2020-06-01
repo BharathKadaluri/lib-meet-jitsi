@@ -965,6 +965,7 @@ class RTCUtils extends Listenable {
 
         logger.info('Get media constraints', constraints);
         logger.info('nineleaps: getUserMediaWithConstraints::', constraints);
+
         return new Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints)
             .then(stream => {
@@ -993,24 +994,38 @@ class RTCUtils extends Listenable {
      */
     _newGetUserMediaWithConstraints(umDevices, constraints = {}) {
         return new Promise((resolve, reject) => {
-            //{audio:true}
-            //{video:{exact:{deviceid:""}}}
+            // {audio:true}
+            // {video:{exact:{deviceid:""}}}
             logger.info('nineleaps: _newGetUserMediaWithConstraints Before', constraints);
-            let {video}  = constraints;
-            let nlVideo = {}
-            //check if video is not false
-            if(undefined !== video && video){
-                //check if device id  exists
-                if(video.hasOwnProperty('deviceId')){
-                    nlVideo['deviceId'] = video.deviceId;
-                }else {
-                    nlVideo = true
-                }
 
-                constraints['video'] = nlVideo;
-            }
-            logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, nlVideo);
+            // let {video}  = constraints;
+            // let nlVideo = {}
+            // //check if video is not false
+            // if(undefined !== video && video){
+            //     //check if device id  exists
+            //     if(video.hasOwnProperty('deviceId')){
+            //         nlVideo['deviceId'] = video.deviceId;
+            //     }else {
+            //         nlVideo = true
+            //     }
 
+            //     constraints['video'] = nlVideo;
+            // }
+            // logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, nlVideo);
+
+            // {audio:true}
+            // {video:{exact:{deviceid:""}}}
+            constraints = { audio: true,
+                video: { facingMode: { exact: 'environment' } } };
+
+            // const constraint = Object.assign(constraints, { video: { aspectRatio: 1.3333333333 } });
+
+            logger.info('nineleaps: _newGetUserMediaWithConstraints after', constraints);
+
+            // if (constraints.video && constraints.video.height) {
+            //     delete constraints.video.height;
+            // }
+            // logger.info('nineleaps: _newGetUserMediaWithConstraints after', constraints);
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
                     logger.log('onUserMediaSuccess');

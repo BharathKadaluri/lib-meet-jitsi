@@ -1002,7 +1002,8 @@ class RTCUtils extends Listenable {
             .then(devices => {
                 for (const device of devices) {
                     if (device.kind === 'videoinput') {
-                        constraints.video = device.deviceId;
+                        constraints.video = {};
+                        constraints.video.deviceId = device.deviceId;
                     }
                 }
             })

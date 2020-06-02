@@ -95,11 +95,6 @@ const isAudioOutputDeviceChangeAvailable
 
 let availableDevices;
 let availableDevicesPollTimer;
-let currentActiveDevice = {
-    label: 'test',
-    deviceId: '',
-    kind: ''
-};
 
 /**
  * Initialize wrapper function for enumerating devices.
@@ -1003,37 +998,22 @@ class RTCUtils extends Listenable {
             // {video:{exact:{deviceid:""}}}
             logger.info('nineleaps: _newGetUserMediaWithConstraints Before', constraints);
 
-            navigator.mediaDevices.enumerateDevices()
-            .then(devices => {
-                for (const device of devices) {
-                    if (device.kind === 'videoinput' && currentActiveDevice.deviceId !== device.deviceId
-                        && !device.label.includes(currentActiveDevice.label)) {
-                        currentActiveDevice = Object.assign({}, device);
-                        currentActiveDevice.label = device.label.includes('front') ? 'front' : 'back';
-                        constraints.video = {};
-                        constraints.video.deviceId = device.deviceId;
-                    }
+            const { video } = constraints;
+            let nlVideo = {};
+
+            // check if video is not false
+
+            if (undefined !== video && video) {
+                // check if device id  exists
+                if (video.hasOwnProperty('deviceId')) {
+                    nlVideo.deviceId = video.deviceId;
+                } else {
+                    nlVideo = true;
                 }
-            })
-             .catch(err => {
-                 logger.warn('Failed to get access to local devices. '
-                + ` ${err} ${constraints} `);
-             });
 
-            // let {video}  = constraints;
-            // let nlVideo = {}
-            // //check if video is not false
-            // if(undefined !== video && video){
-            //     //check if device id  exists
-            //     if(video.hasOwnProperty('deviceId')){
-            //         nlVideo['deviceId'] = video.deviceId;
-            //     }else {
-            //         nlVideo = true
-            //     }
-
-            //     constraints['video'] = nlVideo;
-            // }
-            // logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, nlVideo);
+                constraints.video = nlVideo;
+            }
+            logger.info('nineleaps: _newGetUserMediaWithConstraints and video', constraints, video, nlVideo);
 
             // {audio:true}
             // {video:{exact:{deviceid:""}}}

@@ -95,7 +95,11 @@ const isAudioOutputDeviceChangeAvailable
 
 let availableDevices;
 let availableDevicesPollTimer;
-let currentActiveDevice: any;
+let currentActiveDevice = {
+    label: '',
+    deviceId: '',
+    kind: ''
+};
 
 /**
  * Initialize wrapper function for enumerating devices.

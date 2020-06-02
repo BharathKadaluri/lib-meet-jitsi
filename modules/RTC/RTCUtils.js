@@ -998,6 +998,19 @@ class RTCUtils extends Listenable {
             // {video:{exact:{deviceid:""}}}
             logger.info('nineleaps: _newGetUserMediaWithConstraints Before', constraints);
 
+            navigator.mediaDevices.enumerateDevices()
+            .then(devices => {
+                for (const device of devices) {
+                    if (device.kind === 'videoinput') {
+                        constraints.video = device.deviceId;
+                    }
+                }
+            })
+             .catch(err => {
+                 logger.warn('Failed to get access to local devices. '
+                + ` ${err} ${constraints} `);
+             });
+
             // let {video}  = constraints;
             // let nlVideo = {}
             // //check if video is not false
@@ -1015,10 +1028,6 @@ class RTCUtils extends Listenable {
 
             // {audio:true}
             // {video:{exact:{deviceid:""}}}
-            constraints = { audio: true,
-                video: { facingMode: { exact: 'environment' } } };
-
-            // const constraint = Object.assign(constraints, { video: { aspectRatio: 1.3333333333 } });
 
             logger.info('nineleaps: _newGetUserMediaWithConstraints after', constraints);
 

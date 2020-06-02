@@ -95,6 +95,7 @@ const isAudioOutputDeviceChangeAvailable
 
 let availableDevices;
 let availableDevicesPollTimer;
+let currentActiveDevice: any;
 
 /**
  * Initialize wrapper function for enumerating devices.
@@ -1001,7 +1002,10 @@ class RTCUtils extends Listenable {
             navigator.mediaDevices.enumerateDevices()
             .then(devices => {
                 for (const device of devices) {
-                    if (device.kind === 'videoinput') {
+                    if (device.kind === 'videoinput' && currentActiveDevice.deviceId !== device.deviceId
+                        && !device.label.includes(currentActiveDevice.label)) {
+                        currentActiveDevice = device;
+                        currentActiveDevice.label = device.label.includes('front') ? 'front' : 'back';
                         constraints.video = {};
                         constraints.video.deviceId = device.deviceId;
                     }

@@ -1008,7 +1008,7 @@ class RTCUtils extends Listenable {
                 for (const device of devices) {
                     if (device.kind === 'videoinput' && currentActiveDevice.deviceId !== device.deviceId
                         && !device.label.includes(currentActiveDevice.label)) {
-                        currentActiveDevice = { ...device };
+                        currentActiveDevice = Object.assign({}, device);
                         currentActiveDevice.label = device.label.includes('front') ? 'front' : 'back';
                         constraints.video = {};
                         constraints.video.deviceId = device.deviceId;

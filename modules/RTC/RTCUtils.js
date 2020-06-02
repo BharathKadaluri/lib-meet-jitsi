@@ -96,7 +96,7 @@ const isAudioOutputDeviceChangeAvailable
 let availableDevices;
 let availableDevicesPollTimer;
 let currentActiveDevice = {
-    label: '',
+    label: 'test',
     deviceId: '',
     kind: ''
 };
